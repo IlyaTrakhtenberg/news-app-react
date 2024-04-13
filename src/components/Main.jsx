@@ -1,8 +1,8 @@
-import { Outlet } from "react-router-dom";
 import Categories from "./Categories";
 import Search from "./Search";
+import Articles from "./Articles";
 
-const OutletMain = ({ mobile }) => {
+const Main = ({ mobile }) => {
   return (
     <>
       <div className="row position-sticky top-0">
@@ -18,9 +18,9 @@ const OutletMain = ({ mobile }) => {
 
       <div className="row flex-grow-1">
         {!mobile && <Search mobile={mobile} />}
-        <Outlet />
+        <Articles />
       </div>
     </>
   );
 };
-export default OutletMain;
+export default Main;

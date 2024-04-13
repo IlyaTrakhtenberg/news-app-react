@@ -4,10 +4,9 @@ input{
         box-shadow:none !important
     }
 }
-.cat-select{
+select{
     padding:0.5rem;
-    width:auto;
-    font-size: 1.6rem;
+    width:auto !important;
     border: none;
     &:focus-visible{
         outline:none

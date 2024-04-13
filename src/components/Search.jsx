@@ -1,52 +1,66 @@
-import { useEffect } from "react";
-
-const Search = ({ mobile }) => {
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import Filters from "./Filters";
+const Search = ({ mobile }) => (
+  <>
+    {mobile ? (
+      <div className="col-auto">
+        <div className="dropdown d-flex">
+          <InpGroup margin={"me-2"} />
+          <button
+            className="btn btn-dark dropdown-toggle"
+            data-bs-toggle="dropdown"
+          >
+            Filters
+          </button>
+          <ul className="dropdown-menu w-100 mt-1">
+            <Filters />
+          </ul>
+        </div>
+      </div>
+    ) : (
+      <div className="col-auto border-end border-dark-subtle p-0">
+        <div className="container-fluid position-sticky py-3" id="search">
+          <InpGroup margin={"mb-2"} />
+          <Filters />
+        </div>
+      </div>
+    )}
+  </>
+);
+const InpGroup = ({ margin }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [inp, setInp] = useState(null);
   useEffect(() => {
     const search = document.getElementById("search");
     const nav = document.getElementById("nav");
-    if (search) search.style.top = `${nav.clientHeight + 16}px`;
+    if (search) search.style.top = `${nav.clientHeight}px`;
   }, []);
+  useEffect(() => {
+    setInp(searchParams.get("q"));
+  }, [searchParams]);
   return (
-    <>
-      {mobile ? (
-        <div className="col-auto">
-          <div className="dropdown d-flex">
-            <div className="input-group me-2">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search articles"
-              />
-              <button className="btn btn-dark" type="button">
-                Search
-              </button>
-            </div>
-            <button
-              className="btn btn-dark dropdown-toggle"
-              data-bs-toggle="dropdown"
-            >
-              Filters
-            </button>
-            <ul className="dropdown-menu w-100"></ul>
-          </div>
-        </div>
-      ) : (
-        <div className="col-auto border-end border-dark-subtle px-0 py-3">
-          <div className="container-fluid position-sticky" id="search">
-            <div className="input-group me-2">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search articles"
-              />
-              <button className="btn btn-dark" type="button">
-                Search
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+    <div className={"input-group " + margin}>
+      <input
+        type="text"
+        className="form-control"
+        value={inp || ""}
+        onChange={(e) => setInp(e.target.value)}
+        placeholder="Search articles"
+      />
+      <button
+        className="btn btn-dark"
+        type="button"
+        onClick={() =>
+          setSearchParams((searchParams) => {
+            searchParams.set("q", inp);
+            return searchParams;
+          })
+        }
+      >
+        Search
+      </button>
+    </div>
   );
 };
 export default Search;

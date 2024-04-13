@@ -1,42 +1,59 @@
-import { NavLink, useNavigate } from "react-router-dom";
-const categories = [
-  "Sport",
-  "Business",
-  "Health",
-  "Science",
-  "Technology",
-  "Entertainment",
-];
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { categories } from "../optionsData";
 const Categories = ({ mobile }) => {
-  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    !searchParams.get("category") &&
+      setSearchParams((searchParams) => {
+        searchParams.set("category", "general");
+        return searchParams;
+      });
+  }, [searchParams]);
   return (
     <div className="row justify-content-center" id="nav">
       {mobile ? (
         <select
-          className="cat-select fs-4 text-center"
-          onChange={(e) => navigate(e.target.value)}
+          className="fs-3 text-center"
+          onChange={(e) =>
+            setSearchParams((searchParams) => {
+              searchParams.set("category", e.target.value);
+              return searchParams;
+            })
+          }
         >
-          <option value="general" aria-selected={true}>
-            General
-          </option>
           {categories.map((cat) => (
-            <option key={cat} value={cat.toLowerCase()}>
+            <option
+              key={cat}
+              value={cat.toLowerCase()}
+              aria-selected={cat.toLowerCase() === searchParams.get("category")}
+            >
               {cat}
             </option>
           ))}
         </select>
       ) : (
         <ul className="nav justify-content-center p-0">
-          <li className="nav-item">
-            <NavLink to="general" className="nav-link text-black">
-              General
-            </NavLink>
-          </li>
           {categories.map((cat) => (
-            <li key={cat} className="nav-item">
-              <NavLink to={cat.toLowerCase()} className="nav-link text-black">
+            <li
+              key={cat}
+              className={`nav-item ${
+                cat.toLowerCase() === searchParams.get("category")
+                  ? "active"
+                  : ""
+              }`}
+            >
+              <button
+                onClick={() =>
+                  setSearchParams((searchParams) => {
+                    searchParams.set("category", cat.toLowerCase());
+                    return searchParams;
+                  })
+                }
+                className="nav-link text-black"
+              >
                 {cat}
-              </NavLink>
+              </button>
             </li>
           ))}
         </ul>
