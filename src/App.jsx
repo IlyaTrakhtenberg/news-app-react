@@ -1,42 +1,43 @@
-import { useState, useEffect } from "react";
-import { Navigate, Route, Routes, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, Route, Routes } from "react-router-dom";
 import axios from "axios";
+import { mobile, notMobile, setCountry } from "./data/store";
 import Title from "./components/Title";
-import Main from "./components/Main";
+import NavBar from "./components/main/NavBar";
+import Main from "./components/main/Main";
 const App = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [mobile, setMobile] = useState(false);
+  const dispatch = useDispatch();
+  const country = useSelector((state) => state.country);
   useEffect(() => {
     const handleResize = () => {
-      setMobile(window.innerWidth < 768);
+      dispatch(window.innerWidth < 768 ? mobile() : notMobile());
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     const getCountry = async () => {
       try {
         const ip = await axios("https://ipapi.co/json/");
-        setSearchParams((searchParams) => {
-          searchParams.set("country", ip.data["country_code"].toLowerCase());
-          return searchParams;
-        });
+        dispatch(setCountry(ip.data["country_code"].toLowerCase()));
       } catch (error) {
-        setSearchParams((searchParams) => {
-          searchParams.set("country", "us");
-          return searchParams;
-        });
+        dispatch(setCountry("us"));
       }
     };
-    !searchParams.get("country") && getCountry();
-  }, []);
+    !country && getCountry();
+  }, [country, dispatch]);
   return (
     <div className="container-fluid d-flex flex-column vh-100 overflow-y-auto">
       <Title />
       <Routes>
-        <Route path="*" element={<Navigate to="/categories" />} />
-        <Route path="categories" element={<Main mobile={mobile} />} />
+        <Route path="*" element={<Navigate to="/news" />} />
+        <Route path="news" element={<NavBar />}>
+          <Route index element={<Navigate to="top-headlines" />} />
+          <Route path=":endpoint" element={<Main />} />
+          <Route path="saved" element={<></>} />
+        </Route>
       </Routes>
     </div>
   );
