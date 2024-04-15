@@ -54,6 +54,21 @@ export const countries = [
   "ve",
   "za",
 ];
+export const languages = [
+  "ar",
+  "de",
+  "en",
+  "es",
+  "fr",
+  "he",
+  "it",
+  "nl",
+  "no",
+  "pt",
+  "ru",
+  "sv",
+  "zh",
+];
 export const sortOptions = ["publishedAt", "relevancy", "popularity"];
 export const categories = [
   "General",
