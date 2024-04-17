@@ -4,8 +4,9 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { mobile, notMobile, setCountry } from "./data/store";
 import Title from "./components/Title";
-import NavBar from "./components/main/NavBar";
-import Main from "./components/main/Main";
+import NavBar from "./components/navbar/NavBar";
+import Main from "./components/Main";
+import Saved from "./components/Saved";
 const App = () => {
   const dispatch = useDispatch();
   const country = useSelector((state) => state.country);
@@ -36,7 +37,7 @@ const App = () => {
         <Route path="news" element={<NavBar />}>
           <Route index element={<Navigate to="top-headlines" />} />
           <Route path=":endpoint" element={<Main />} />
-          <Route path="saved" element={<></>} />
+          <Route path="saved" element={<Saved />} />
         </Route>
       </Routes>
     </div>

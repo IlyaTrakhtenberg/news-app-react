@@ -7,7 +7,7 @@ import Region from "./Region";
 const Search = () => {
   const params = useParams();
   const endpoint = useMemo(() => params.endpoint, [params]);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const mobile = useSelector((state) => state.isMobile);
   const country = useSelector((state) => state.country);
   const category = useSelector((state) => state.category);
@@ -34,18 +34,7 @@ const Search = () => {
       });
     }
   }, [endpoint, country, category, setSearchParams]);
-  const inpGroup = (margin) => (
-    <InpGroup
-      margin={margin}
-      searchParams={searchParams}
-      handleSearch={(inp) =>
-        setSearchParams((searchParams) => {
-          searchParams.set("q", inp);
-          return searchParams;
-        })
-      }
-    />
-  );
+  const inpGroup = (margin) => <InpGroup margin={margin} />;
   const filters = (
     <Filters
       handleFilter={(param, value) =>
@@ -56,7 +45,7 @@ const Search = () => {
       }
     />
   );
-  const region = <Region country={country} extended={!mobile} />;
+  const region = <Region currentCountry={country} extended={!mobile} />;
   return (
     <>
       {mobile ? (

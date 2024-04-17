@@ -1,9 +1,10 @@
 import { Children, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { setCategory } from "../../data/store";
 import { categories } from "../../data/optionsData";
-import readLater from "../../icons/read-later-unsaved.png";
+import NavLinkAll from "./NavLinkAll";
+import NavLinkSaved from "./NavLinkSaved";
 
 const NavBar = () => {
   const params = useParams();
@@ -31,12 +32,7 @@ const NavBar = () => {
       <div className="row position-sticky top-0 bg-body" id="nav">
         {mobile ? (
           <NavLayout itemClass="p-2" border="">
-            <NavLink
-              to="everything"
-              className="btn btn-lg btn-light text-nowrap"
-            >
-              All news
-            </NavLink>
+            <NavLinkAll linkClass="btn btn-lg btn-light text-nowrap" />
             <select
               className={`w-100 fs-4 text-center rounded ${
                 isTopHeadlines ? "active" : "bg-light"
@@ -61,22 +57,17 @@ const NavBar = () => {
                 />
               ))}
             </select>
-            <NavLink to="saved" className="btn btn-lg btn-light text-nowrap">
-              Saved
-              <img src={readLater} alt="" style={{ height: "2rem" }} />
-            </NavLink>
+            <NavLinkSaved
+              linkClass="btn btn-lg btn-light text-nowrap"
+              iconSize={2}
+            />
           </NavLayout>
         ) : (
           <NavLayout
             itemClass="w-100"
             border="border-bottom border-dark-subtle"
           >
-            <NavLink
-              to="everything"
-              className="nav-link text-black text-center px-1 w-100"
-            >
-              All news
-            </NavLink>
+            <NavLinkAll linkClass="nav-link text-black text-center px-1 w-100" />
             {categories.map((category) => (
               <button
                 key={category}
@@ -88,13 +79,10 @@ const NavBar = () => {
                 {category}
               </button>
             ))}
-            <NavLink
-              to="saved"
-              className="nav-link text-black text-center px-1 w-100"
-            >
-              Saved
-              <img src={readLater} alt="" style={{ height: "1.2rem" }} />
-            </NavLink>
+            <NavLinkSaved
+              linkClass="nav-link text-black text-center px-1 w-100"
+              iconSize={1.2}
+            />
           </NavLayout>
         )}
       </div>
@@ -103,7 +91,7 @@ const NavBar = () => {
   );
 };
 const NavLayout = ({ border, children, itemClass }) => (
-  <ul className={"nav px-2 justify-content-evenly flex-nowrap " + border}>
+  <ul className={"nav px-0 justify-content-evenly flex-nowrap " + border}>
     {Children.map(children, (child) => (
       <li className={"nav-item " + itemClass}>{child}</li>
     ))}

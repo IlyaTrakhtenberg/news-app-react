@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import Search from "./search/Search";
-import Articles from "./Articles";
+import Articles from "./articles/Articles";
 
 const Main = () => {
   const mobile = useSelector((state) => state.isMobile);

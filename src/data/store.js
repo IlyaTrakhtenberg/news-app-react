@@ -11,14 +11,34 @@ const countrySlice = createSlice({
   name: "country",
   initialState: null,
   reducers: {
-    setCountry: (state, value) => (state = value.payload),
+    setCountry: (state, action) => (state = action.payload),
   },
 });
 const categorySlice = createSlice({
   name: "category",
   initialState: "general",
   reducers: {
-    setCategory: (state, value) => (state = value.payload),
+    setCategory: (state, action) => (state = action.payload),
+  },
+});
+const dataSlice = createSlice({
+  name: "data",
+  initialState: null,
+  reducers: {
+    setData: (state, action) => (state = action.payload),
+  },
+});
+const savedSlice = createSlice({
+  name: "saved",
+  initialState: [],
+  reducers: {
+    addArticle: (state, action) => {
+      state.length ? state.unshift(action.payload) : state.push(action.payload);
+    },
+    removeArticle: (state, action) => {
+      const ind = state.map((article) => article.url).indexOf(action.payload);
+      state.splice(ind, 1);
+    },
   },
 });
 export default configureStore({
@@ -26,8 +46,12 @@ export default configureStore({
     isMobile: mobileSlice.reducer,
     country: countrySlice.reducer,
     category: categorySlice.reducer,
+    data: dataSlice.reducer,
+    saved: savedSlice.reducer,
   },
 });
 export const { mobile, notMobile } = mobileSlice.actions;
 export const { setCountry } = countrySlice.actions;
 export const { setCategory } = categorySlice.actions;
+export const { setData } = dataSlice.actions;
+export const { addArticle, removeArticle } = savedSlice.actions;
