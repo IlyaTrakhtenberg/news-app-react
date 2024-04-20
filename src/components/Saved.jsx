@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeArticle } from "../data/store";
 import dayjs from "dayjs";
 import noImage from "../icons/img-placeholder.jpg";
-import closeIcon from "../icons/close-button.svg";
+import removeIcon from "../icons/x-icon.svg";
 
 const Saved = () => {
   const savedArticles = useSelector((state) => state.saved);
@@ -68,7 +68,7 @@ const Article = ({ article }) => {
           onClick={() => dispatch(removeArticle(article.url))}
         >
           Remove
-          <img src={closeIcon} alt="" style={{ height: "1rem" }} />
+          <img src={removeIcon} alt="" style={{ height: "1rem" }} />
         </button>
       </div>
     </div>
