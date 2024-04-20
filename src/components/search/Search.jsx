@@ -50,7 +50,7 @@ const Search = () => {
     <>
       {mobile ? (
         <div
-          className="row p-2 flex-nowrap position-sticky bg-body justify-content-center border-bottom border-dark-subtle"
+          className="row p-2 flex-nowrap position-sticky bg-body justify-content-center border-shadow-bottom"
           ref={(node) => setTop(node)}
         >
           <div className="col-auto d-flex">
@@ -71,7 +71,7 @@ const Search = () => {
           </div>
         </div>
       ) : (
-        <div className="col-auto border-end border-dark-subtle p-0">
+        <div className="col-auto p-0 border-shadow-right">
           <div
             className="container-fluid position-sticky py-3"
             ref={(node) => setTop(node)}

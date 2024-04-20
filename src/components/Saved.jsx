@@ -7,30 +7,15 @@ import closeIcon from "../icons/close-button.svg";
 
 const Saved = () => {
   const savedArticles = useSelector((state) => state.saved);
-  const mobile = useSelector((state) => state.isMobile);
-  const setTop = (node) => {
-    if (node) {
-      const nav = document.getElementById("nav");
-      node.style.top = `${nav.offsetHeight}px`;
-    }
-  };
   return (
-    <>
-      {mobile && (
-        <div
-          className="row position-sticky border-bottom border-dark-subtle"
-          ref={(node) => setTop(node)}
-        />
-      )}
-      <div className="row flex-grow-1">
-        <div className="container-fluid">
-          {savedArticles?.map((article) => (
-            <Article key={article.url} article={article} />
-          ))}
-          {!savedArticles?.length && <Placeholder />}
-        </div>
+    <div className="row flex-grow-1">
+      <div className="container-fluid">
+        {savedArticles?.map((article) => (
+          <Article key={article.url} article={article} />
+        ))}
+        {!savedArticles?.length && <Placeholder />}
       </div>
-    </>
+    </div>
   );
 };
 const Article = ({ article }) => {

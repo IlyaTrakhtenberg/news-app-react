@@ -9,6 +9,7 @@ import Article from "./Article";
 
 const Articles = () => {
   const [status, setStatus] = useState(null);
+  const [activeArticle, setActiveArticle] = useState(null);
   const [searchParams] = useSearchParams();
   const params = useParams();
   const dispatch = useDispatch();
@@ -68,6 +69,12 @@ const Articles = () => {
                 article={article}
                 saved={handleSave(article).status}
                 onSave={handleSave(article).method}
+                active={article.url === activeArticle}
+                onToggle={() =>
+                  setActiveArticle(
+                    article.url === activeArticle ? null : article.url
+                  )
+                }
               />
             ))}
     </div>

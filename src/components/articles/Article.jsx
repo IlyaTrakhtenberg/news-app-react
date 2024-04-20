@@ -1,24 +1,19 @@
 import { useState } from "react";
 import dayjs from "dayjs";
+import SmoothCollapse from "react-smooth-collapse";
 import readLaterUnsaved from "../../icons/read-later-unsaved.png";
 import readLaterSaved from "../../icons/read-later-saved.png";
 import noImage from "../../icons/img-placeholder.jpg";
 
-const Article = ({ article, saved, onSave }) => {
+const Article = ({ article, saved, onSave, active, onToggle }) => {
   const [error, setError] = useState(false);
   return (
-    <div className="row p-2 border-bottom">
+    <div className={`row p-2 border-bottom ${active ? "active smooth" : ""}`}>
       <div className="col flex-grow-1">
-        <div
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target={"#" + article.url}
-          aria-expanded={false}
-          className="fw-medium"
-        >
+        <div type="button" onClick={onToggle} className="fw-medium">
           {article.title}
         </div>
-        <div className="collapse" id={article.url}>
+        <SmoothCollapse expanded={active}>
           <p className="my-1">
             {article.urlToImage && (
               <img
@@ -46,7 +41,7 @@ const Article = ({ article, saved, onSave }) => {
               target="_blank"
             >{`Read on ${article.source.name}`}</a>
           </p>
-        </div>
+        </SmoothCollapse>
       </div>
       <div className="col-auto d-flex align-items-center">
         <img

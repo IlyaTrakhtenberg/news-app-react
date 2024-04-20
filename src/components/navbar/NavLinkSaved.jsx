@@ -5,16 +5,17 @@ import readLater from "../../icons/read-later-unsaved.png";
 
 const NavLinkSaved = ({ linkClass, iconSize }) => {
   const savedArticles = useSelector((state) => state.saved);
-  const savedNum = useMemo(
-    () => (savedArticles.length < 100 ? savedArticles.length : "99+"),
-    [savedArticles]
-  );
+  const savedNum = useMemo(() => {
+    if (savedArticles?.length) {
+      return savedArticles.length < 100 ? savedArticles.length : "99+";
+    } else return null;
+  }, [savedArticles]);
   return (
-    <NavLink to="saved" className={linkClass}>
+    <NavLink to="saved" className={linkClass} data-testid="saved">
       Saved
       <span className="position-relative">
         <img src={readLater} alt="" style={{ height: `${iconSize}rem` }} />
-        {Boolean(savedNum) && (
+        {savedNum && (
           <span
             className="position-absolute translate-middle text-white rounded-pill bg-dark"
             style={{
@@ -24,6 +25,7 @@ const NavLinkSaved = ({ linkClass, iconSize }) => {
               left: "75%",
               top: "25%",
             }}
+            data-testid="num-indicator"
           >
             {savedNum}
           </span>

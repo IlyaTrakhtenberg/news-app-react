@@ -39,6 +39,7 @@ const savedSlice = createSlice({
       const ind = state.map((article) => article.url).indexOf(action.payload);
       state.splice(ind, 1);
     },
+    setStateTest: (state, action) => (state = action.payload),
   },
 });
 export default configureStore({
@@ -54,4 +55,4 @@ export const { mobile, notMobile } = mobileSlice.actions;
 export const { setCountry } = countrySlice.actions;
 export const { setCategory } = categorySlice.actions;
 export const { setData } = dataSlice.actions;
-export const { addArticle, removeArticle } = savedSlice.actions;
+export const { addArticle, removeArticle, setStateTest } = savedSlice.actions;

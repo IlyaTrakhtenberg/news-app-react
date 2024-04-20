@@ -11,6 +11,20 @@ select{
         outline:none;
     }
 }
+.title-bg{
+    background: linear-gradient(rgb(255, 200, 38),white);
+}
 .active{
-    background-color: lightgray;
+    background-color: rgb(240,240,240);
+}
+.smooth{
+    transition: all .25s ease;
+}
+.border-shadow-bottom{
+    border-bottom: 1px solid rgb(200,200,200);
+    box-shadow: 0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.2);
+}
+.border-shadow-right{
+    border-right: 1px solid rgb(200,200,200);
+    box-shadow: 0.5rem 0 0.5rem -0.5rem rgba(0, 0, 0, 0.2);
 }

@@ -1,4 +1,4 @@
-import { Children, useCallback, useMemo } from "react";
+import { Children, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { setCategory } from "../../data/store";
@@ -12,8 +12,8 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const mobile = useSelector((state) => state.isMobile);
   const currentCategory = useSelector((state) => state.category);
-  const isTopHeadlines = useMemo(
-    () => params.endpoint === "top-headlines",
+  const isEndpoint = useCallback(
+    (endpoint) => params.endpoint === endpoint,
     [params]
   );
   const isCategory = useCallback(
@@ -22,24 +22,28 @@ const NavBar = () => {
   );
   const handleCategory = useCallback(
     (value) => {
-      !isTopHeadlines && navigate("top-headlines");
+      !isEndpoint("top-headlines") && navigate("top-headlines");
       dispatch(setCategory(value));
     },
-    [isTopHeadlines, dispatch, navigate]
+    [isEndpoint, dispatch, navigate]
   );
   return (
     <>
       <div className="row position-sticky top-0 bg-body" id="nav">
         {mobile ? (
-          <NavLayout itemClass="p-2" border="">
+          <NavLayout
+            itemClass="p-2"
+            border={isEndpoint(undefined) ? "border-shadow-bottom" : ""}
+          >
             <NavLinkAll linkClass="btn btn-lg btn-light text-nowrap" />
             <select
               className={`w-100 fs-4 text-center rounded ${
-                isTopHeadlines ? "active" : "bg-light"
+                isEndpoint("top-headlines") ? "active" : "bg-light"
               }`}
               onChange={(e) => handleCategory(e.target.value)}
+              defaultValue={currentCategory}
             >
-              {!isTopHeadlines && (
+              {!isEndpoint("top-headlines") && (
                 <option
                   ref={(node) => {
                     if (node) node.selected = true;
@@ -52,7 +56,9 @@ const NavBar = () => {
                   key={category}
                   value={category.toLowerCase()}
                   label={category}
-                  aria-selected={isTopHeadlines && isCategory(category)}
+                  aria-selected={
+                    isEndpoint("top-headlines") && isCategory(category)
+                  }
                   className="bg-white w-50"
                 />
               ))}
@@ -63,17 +69,16 @@ const NavBar = () => {
             />
           </NavLayout>
         ) : (
-          <NavLayout
-            itemClass="w-100"
-            border="border-bottom border-dark-subtle"
-          >
+          <NavLayout itemClass="w-100" border="border-shadow-bottom">
             <NavLinkAll linkClass="nav-link text-black text-center px-1 w-100" />
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => handleCategory(category.toLowerCase())}
                 className={`nav-link text-black px-1 w-100 ${
-                  isTopHeadlines && `${isCategory(category) ? "active" : ""}`
+                  isEndpoint("top-headlines")
+                    ? `${isCategory(category) ? "active" : ""}`
+                    : ""
                 }`}
               >
                 {category}
