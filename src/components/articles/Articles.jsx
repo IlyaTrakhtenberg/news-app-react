@@ -6,7 +6,7 @@ import newsApiUrl from "../../data/newsApi";
 import { addArticle, removeArticle, setData } from "../../data/store";
 import { content } from "./OtherContent";
 import Article from "./Article";
-import { requestSample, responseSample } from "../../data/sample";
+import { responseSample } from "../../data/sample";
 
 const Articles = () => {
   const [status, setStatus] = useState(null);
@@ -51,7 +51,7 @@ const Articles = () => {
         } else setStatus("noResults");
       } catch (error) {
         //setStatus("error");
-        dispatch(setData({ articles: responseSample, request: requestSample }));
+        dispatch(setData({ articles: responseSample, request: request }));
         setStatus(null);
       }
     };

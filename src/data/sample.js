@@ -1,5 +1,4 @@
 //response for top-headlines?country=gb&category=general made 20.04.2024 19:15 (Israel time)
-export const requestSample = "top-headlines?country=gb&category=general";
 export const responseSample = [
   {
     source: {
