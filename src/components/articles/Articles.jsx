@@ -52,6 +52,7 @@ const Articles = () => {
       } catch (error) {
         //setStatus("error");
         dispatch(setData({ articles: responseSample, request: requestSample }));
+        setStatus(null);
       }
     };
     if (request) {
